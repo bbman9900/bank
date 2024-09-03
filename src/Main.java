@@ -38,6 +38,13 @@ public class Main {
 
 
     public static void main(String[] args) {
+        dataInit();
+        bankTransaction()
+
+        transactionPrint();
+    }
+
+    private static void dataInit() {
         atm.add(atm1);
         atm.add(atm2);
         atm.add(atm3);
@@ -54,7 +61,9 @@ public class Main {
         th.add(th2);
         th.add(th3);
         th.add(th4);
+    }
 
+    private static void bankTransaction() {
         while (true) {
             System.out.println("은행 번호를 입력 후 Enter 키를 입력해주세요.\n1 : 신한은행\n2 : 국민은행\n3 : 우리은행\n4 : 카카오뱅크\n5 : 거래 종료");
             Scanner sc = new Scanner(System.in);
@@ -240,9 +249,10 @@ public class Main {
                 System.out.println("1, 2, 3, 4, 5 중 하나를 입력해주세요.");
                 continue;
             }
-
         }
+    }
 
+    private static void transactionPrint() {
         // 거래 내역 조회
         System.out.println("-------------거래 내역----------------");
         for (Map.Entry<Long, TransactionHistory> lthe : th1.entrySet()) {
