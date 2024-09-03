@@ -8,10 +8,10 @@ public class Main {
     public static Status s = Status.NORMAL;
 
     // 은행별 ATM
-    public static ATM atm1 = new ATM(BankCode.SHINHAN, 1, "ori station");
-    public static ATM atm2 = new ATM(BankCode.KOOKMIN, 2, "ori station");
-    public static ATM atm3 = new ATM(BankCode.KAKAO, 3, "ori station");
-    public static ATM atm4 = new ATM(BankCode.WOORI, 4, "ori station");
+    public static ATM atm1 = new ATM(BankCode.SHINHAN, 1, "신한ATM");
+    public static ATM atm2 = new ATM(BankCode.KOOKMIN, 2, "국민ATM");
+    public static ATM atm3 = new ATM(BankCode.WOORI, 3, "우리ATM");
+    public static ATM atm4 = new ATM(BankCode.KAKAO, 4, "카카오ATM");
     public static ArrayList<ATM> atm = new ArrayList<>();
 
     // 고객 리스트
@@ -125,7 +125,7 @@ public class Main {
                             // 고객의 계좌 목록에 추가
                             user1.getAccountList().add(account1);
                             // 은행 계좌 목록에 추가
-                            accountList1.put(account1.getAccountNumber(), account1);
+                            al.get(bank - 1).put(account1.getAccountNumber(), account1);
                             // 은행 거래 내역 목록에 추가
                             th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.CREATE, account1, 0, atm.get(bank - 1), s));
                             System.out.println("계좌가 개설되었습니다. 계좌번호 : " + account1.getAccountNumber() + ", 고객 번호 : " + account1.getUser().getUserNumber() + ", 비밀번호 : " + account1.getPassword());
@@ -242,7 +242,6 @@ public class Main {
             }
 
         }
-
 
         // 거래 내역 조회
         System.out.println("-------------거래 내역----------------");

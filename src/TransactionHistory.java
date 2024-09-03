@@ -34,7 +34,7 @@ public class TransactionHistory {
                 ", account=" + account.getAccountNumber() +
                 ", user=" + user.getUserNumber() +
                 ", amount=" + amount +
-                ", atm=" + atm +
+                ", atm=" + atm.getAtmName() +
                 ", status=" + status +
                 '}';
     }
