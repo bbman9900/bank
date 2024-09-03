@@ -127,7 +127,7 @@ public class Main {
                             // 은행 계좌 목록에 추가
                             accountList1.put(account1.getAccountNumber(), account1);
                             // 은행 거래 내역 목록에 추가
-                            th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.CREATE, account1, 0, atm.get(bank - 1), s));
+                            th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.CREATE, account1, 0, atm.get(bank - 1), s));
                             System.out.println("계좌가 개설되었습니다. 계좌번호 : " + account1.getAccountNumber() + ", 고객 번호 : " + account1.getUser().getUserNumber() + ", 비밀번호 : " + account1.getPassword());
                         }
                     }
@@ -150,7 +150,7 @@ public class Main {
                             sc = new Scanner(System.in);
                             long am = sc.nextLong();
                             atm.get(bank - 1).deposit(al.get(bank - 1).get(accountNum), userNum, am);
-                            th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, al.get(bank - 1).get(accountNum), am, atm.get(bank - 1), s));
+                            th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, al.get(bank - 1).get(accountNum), am, atm.get(bank - 1), s));
                         }
                     }
                 } else if (i == 3) {
@@ -178,12 +178,12 @@ public class Main {
                                 long am = sc.nextLong();
                                 boolean withdraw1 = atm.get(bank - 1).withdraw(al.get(bank - 1).get(accountNum), userNum, pw, am);
                                 if (!withdraw1) s = Status.ERROR;
-                                th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, al.get(bank - 1).get(accountNum), am, atm.get(bank - 1), s));
+                                th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, al.get(bank - 1).get(accountNum), am, atm.get(bank - 1), s));
                                 s = Status.NORMAL;
                             }
                         }
                     }
-                } if (i == 4) {
+                } else if (i == 4) {
                     System.out.println("잔액 조회입니다.");
                     System.out.println("계좌번호 5자리를 입력 후 Enter 키를 입력해주세요.");
                     sc = new Scanner(System.in);
@@ -204,38 +204,45 @@ public class Main {
                             if (!(al.get(bank - 1).get(accountNum).getPassword().equals(pw))) System.out.println("비밀번호가 틀렸습니다. 초기 화면으로 돌아갑니다.");
                             else {
                                 atm.get(bank - 1).check(al.get(bank - 1).get(accountNum), userNum, pw);
-                                th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.CHECK, al.get(bank - 1).get(accountNum), 0, atm.get(bank - 1), s));
+                                th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.CHECK, al.get(bank - 1).get(accountNum), 0, atm.get(bank - 1), s));
                             }
                         }
                     }
+                } else if (i == 5) {
+                    System.out.println("계좌 삭제입니다.");
+                    System.out.println("계좌번호 5자리를 입력 후 Enter 키를 입력해주세요.");
+                    sc = new Scanner(System.in);
+                    String accountNum = sc.nextLine();
+                    if (!(al.get(bank - 1).containsKey(accountNum))) {
+                        System.out.println("입력하신 번호의 계좌가 없습니다. 초기 화면으로 돌아갑니다.");
+                    } else {
+                        System.out.println("고객번호 6자리를 입력 후 Enter 키를 입력해주세요.");
+                        sc = new Scanner(System.in);
+                        String userNum = sc.nextLine();
+                        if (userNum.length() != 6) {
+                            System.out.println("6자리가 아닙니다. 초기 화면으로 돌아갑니다.");
+                            continue;
+                        } else {
+                            System.out.println("계좌의 비밀번호 4자리를 입력 후 Enter 키를 입력해주세요.");
+                            sc = new Scanner(System.in);
+                            String pw = sc.nextLine();
+                            if (!(al.get(bank - 1).get(accountNum).getPassword().equals(pw))) System.out.println("비밀번호가 틀렸습니다. 초기 화면으로 돌아갑니다.");
+                            else {
+                                atm.get(bank - 1).delete(al.get(bank - 1).get(accountNum), userNum, pw);
+                                th.get(bank - 1).put(TransactionHistory.sq, new TransactionHistory(TransactionType.DELETE, al.get(bank - 1).get(accountNum), 0, atm.get(bank - 1), s));
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("1, 2, 3, 4, 5, 6 중 하나를 입력해주세요.");
                 }
             } catch (Exception e) {
-                System.out.println("에러 발생 1, 2, 3, 4, 5 중 하나를 입력해주세요.");
+                System.out.println("1, 2, 3, 4, 5 중 하나를 입력해주세요.");
                 continue;
             }
 
         }
 
-
-//
-//        // 조회
-//        atm1.check(account1, "111111", "1111");
-//        th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.CHECK, account1, 0, atm1, s));
-//
-//        // 출금
-//        boolean withdraw1 = atm1.withdraw(account1, "111111", "1111", 15000);
-//        if (!withdraw1) s = Status.ERROR;
-//        th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, account1, 15000, atm1, s));
-//        s = Status.NORMAL;
-//
-//        boolean withdraw2 = atm1.withdraw(account1, "111111", "1111", 5000);
-//        if (!withdraw2) s = Status.ERROR;
-//        th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.DEPOSIT, account1, 5000, atm1, s));
-//        s = Status.NORMAL;
-//
-//        // 계좌 삭제
-//        atm1.delete(account1, "111111", "1111");
-//        th1.put(TransactionHistory.sq, new TransactionHistory(TransactionType.DELETE, account1, 5000, atm1, s));
 
         // 거래 내역 조회
         System.out.println("-------------거래 내역----------------");
